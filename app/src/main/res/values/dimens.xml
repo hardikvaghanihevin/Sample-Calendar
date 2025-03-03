@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="dialog_TextSize_1">@dimen/_18ssp</dimen>
+    <dimen name="dialog_TextSize_2">@dimen/_16ssp</dimen>
+    <dimen name="dialog_TextSize_3">@dimen/_15ssp</dimen>
+    <dimen name="dialog_TextSize_4">@dimen/_13ssp</dimen>
+
+    <dimen name="menuItemHorizontalSpacing_dev2">@dimen/_4sdp</dimen>
+
+</resources>

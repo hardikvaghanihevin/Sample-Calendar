@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_primary">#FAFAFB</color>
+    <color name="background_secondary">#FFFFFF</color>
+    <color name="text_primary">#0E0E0E</color>
+    <color name="text_secondary">#7E818C</color>
+    <color name="border_surface">#E4E5E7</color>
+    <color name="accent_primary">#1F95AF</color>
+    <color name="error">#FF2802</color>
+
+    <color name="action_bar_color">@color/background_primary</color>
+    <color name="app_bar_color">@color/background_primary</color>
+    <color name="action_button_color">@color/accent_primary</color>
+    <color name="action_button_color_secondary">@color/text_secondary</color>
+    <color name="drawerIconColor">@color/text_primary</color>
+    <color name="app_navbar_color">@color/background_primary</color>
+</resources>
