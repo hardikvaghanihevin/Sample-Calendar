@@ -1,8 +1,66 @@
 <resources>
     <string name="app_name">Calendar</string>
-    <string name="open_drawer">Open</string>
-    <string name="close_drawer">Close</string>
-    <string name="navigate_up">Navigate up</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="jan">January</string>
+    <string name="fab">February</string>
+    <string name="mar">March</string>
+    <string name="apr">April</string>
+    <string name="may">May</string>
+    <string name="jun">June</string>
+    <string name="jul">July</string>
+    <string name="aug">August</string>
+    <string name="sep">September</string>
+    <string name="oct">October</string>
+    <string name="nov">November</string>
+    <string name="dec">December</string>
+
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
+
+    <string name="short_mon">M</string>
+    <string name="short_tue">T</string>
+    <string name="short_wed">W</string>
+    <string name="short_thu">T</string>
+    <string name="short_fri">F</string>
+    <string name="short_sat">S</string>
+    <string name="short_sun">S</string>
+
+
+    <string name="repeat">Repeat</string>
+
+    <string name="never">Never</string>
+    <string name="every_day">Every day</string>
+    <string name="every_week">Every week</string>
+    <string name="every_month">Every month</string>
+    <string name="every_year">Every year</string>
+
+
+    <string name="alert">Alert</string>
+
+    <string name="none">None</string>=
+    <string name="at_time">At time of event</string>
+    <string name="before_5_minutes">5 minutes before</string>
+    <string name="before_10_minutes">10 minutes before</string>
+    <string name="before_15_minutes">15 minutes before</string>
+    <string name="before_30_minutes">30 minutes before</string>
+    <string name="before_1_hour">1 hour before</string>
+    <string name="before_1_day">1 day before</string>
+    <string name="before_custom_time">Custom alert</string>
+    <string name="minutes_before">minutes before</string>
+    <string name="min">min</string>
+
+
+    <string name="number_picker_formatter_year" translatable="false">%04d</string>
+
+    <string name="action_delete">Delete</string>
+    <string name="action_save">Save</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="search_event">Search event…</string>
+
+
 </resources>

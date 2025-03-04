@@ -1,8 +1,8 @@
-package com.sample.calendar
+package com.sample.calendar.utility.object_
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -14,13 +14,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.sample.calendar.R
 import com.sample.calendar.databinding.ItemDrawerMenuBinding
 import com.sample.calendar.databinding.LayoutDrawerBinding
+import com.sample.calendar.presentation.ui.activity.CountryActivity
+import com.sample.calendar.presentation.ui.activity.LanguageActivity
+import com.sample.calendar.presentation.ui.activity.MonthActivity
+import com.sample.calendar.presentation.ui.activity.SettingActivity
+import com.sample.calendar.presentation.ui.activity.YearActivity
+import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_COUNTRY
+import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_LANGUAGE
+import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_MONTH
+import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_SETTING
+import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_YEAR
 
 object DrawerMenuManager {
     private var layoutDrawerBinding: LayoutDrawerBinding? = null
     private var isDrawerOpen = false
-
+    private var drawerAdapter: DrawerMenuAdapter? = null
+    private var selectedPosition: Int = -1
     data class DrawerMenuItem(val id: Int, val title: String, val icon: Int, var isSelected: Boolean = false)// val icon: Int = -1, // Now just an Int to hold either attribute or drawable ID
 
     fun setupDrawer(context: Context, onItemSelected: (DrawerMenuItem) -> Unit) {
@@ -32,6 +44,11 @@ object DrawerMenuManager {
         rootView.addView(view) // Add drawer to the root layout
 
         layoutDrawerBinding?.layoutDrawer?.apply {
+            layoutDrawerBinding?.drawerCloseContainer?.setOnClickListener {
+                if (isDrawerOpen()) {
+                    toggleDrawer()
+                }
+            }
 
             // Wait until layout is measured to set initial translation
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -43,16 +60,35 @@ object DrawerMenuManager {
         }
 
         val menuItems = listOf(
-            DrawerMenuItem(1, "Year", R.drawable.icon_year),
-            DrawerMenuItem(2, "Month", R.drawable.icon_month)
+            DrawerMenuItem(FLAG_ACTIVITY_YEAR, "Year", R.drawable.icon_year),
+            DrawerMenuItem(FLAG_ACTIVITY_MONTH, "Month", R.drawable.icon_month),
+            DrawerMenuItem(FLAG_ACTIVITY_COUNTRY, "Country", R.drawable.icon_select_country),
+            DrawerMenuItem(FLAG_ACTIVITY_LANGUAGE, "Language", R.drawable.icon_select_language),
+            DrawerMenuItem(FLAG_ACTIVITY_SETTING, "Setting", R.drawable.icon_setting),
         )
 
-        val adapter = DrawerMenuAdapter(onItemSelected)
+        drawerAdapter = DrawerMenuAdapter(onItemSelected)
         layoutDrawerBinding?.drawerRecyclerView?.apply {
             layoutManager = LinearLayoutManager(context)
-            this.adapter = adapter
+            adapter = drawerAdapter
         }
-        adapter.submitList(menuItems)
+        drawerAdapter!!.submitList(menuItems)
+
+        // Update selection for the current activity
+        updateSelection(activity)
+    }
+
+    fun updateSelection(activity: Activity) {
+        selectedPosition = when (activity) {
+            is YearActivity -> 0
+            is MonthActivity -> 1
+            is CountryActivity -> 2
+            is LanguageActivity -> 3
+            is SettingActivity -> 4
+            else -> -1
+        }
+
+        drawerAdapter?.setSelectedPosition(selectedPosition)
     }
 
 
@@ -73,7 +109,21 @@ object DrawerMenuManager {
             animate()
                 .translationX(-width.toFloat())
                 .setInterpolator(AccelerateDecelerateInterpolator())
-                .setDuration(300)
+                .setDuration(200)
+                .start()
+        }
+    }
+
+    fun closeDrawer(onClosed: (() -> Unit)? = null) {
+        layoutDrawerBinding?.layoutDrawer?.apply {
+            animate()
+                .translationX(-width.toFloat())
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .setDuration(200)
+                .withEndAction {
+                    isDrawerOpen = false
+                    onClosed?.invoke() // Execute action after closing
+                }
                 .start()
         }
     }
@@ -82,7 +132,7 @@ object DrawerMenuManager {
             animate()
                 .translationX(0f)
                 .setInterpolator(AccelerateDecelerateInterpolator())
-                .setDuration(300)
+                .setDuration(200)
                 .start()
         }
     }
@@ -103,7 +153,7 @@ object DrawerMenuManager {
                 if (position == selectedPosition) {
                     binding.menuIcon.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.accent_primary))
                     binding.menuTitle.setTextColor(ContextCompat.getColor(binding.root.context, R.color.accent_primary))
-                    binding.root.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.background_primary))
+                    binding.root.setBackgroundColor(ContextCompat.getColor(binding.root.context, android.R.color.transparent))//R.color.background_primary
                 } else {
                     binding.menuIcon.setColorFilter(ContextCompat.getColor(binding.root.context, R.color.text_primary))
                     binding.menuTitle.setTextColor(ContextCompat.getColor(binding.root.context, R.color.text_primary))
@@ -129,6 +179,12 @@ object DrawerMenuManager {
 
         override fun onBindViewHolder(holder: DrawerMenuViewHolder, position: Int) {
             holder.bind(getItem(position), position)
+        }
+
+        @SuppressLint("NotifyDataSetChanged")
+        fun setSelectedPosition(position: Int) {
+            selectedPosition = position
+            notifyDataSetChanged() // Refresh adapter
         }
 
         companion object {

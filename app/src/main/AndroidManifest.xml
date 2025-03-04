@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -11,22 +12,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Calendar"
-        tools:targetApi="31">
+        tools:targetApi="31" >
         <activity
-            android:name=".MonthActivity"
-            android:exported="false" />
-        <activity
-            android:name=".YearActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".presentation.ui.activity.SplashActivity"
+            android:theme="@style/Theme.Calendar.Fullscreen"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.ui.activity.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.LanguageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.CountryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.YearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.MonthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.ScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.EventUpsertActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.EventViewActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
