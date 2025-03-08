@@ -7,4 +7,93 @@
     android:background="#FFC107"
     tools:context=".presentation.ui.activity.MonthActivity">
 
+    <!-- Custom Toolbar -->
+    <LinearLayout
+        android:id="@+id/custom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:padding="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/background_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Navigation Icon -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/siv_navigation_icon"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:contentDescription="Navigation Icon"
+            android:paddingHorizontal="@dimen/_6sdp"
+            android:src="@drawable/icon_hamburger"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ShapeAbleImageView"
+            tools:ignore="HardcodedText" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Toolbar Title -->
+            <TextView
+                android:id="@+id/toolbar_title"
+                style="@style/TextViewStyle.medium"
+                android:layout_width="0dp"
+                android:layout_alignParentStart="true"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/menu_ItemSpacing_4"
+                android:paddingEnd="0dp"
+                android:layout_marginEnd="@dimen/menu_ItemSpacing_4"
+                android:singleLine="true"
+                android:gravity="start|center_vertical"
+                android:text="@string/app_name"
+                android:textSize="@dimen/dialog_TextSize_1"
+                android:layout_toStartOf="@+id/ll_toolbarMenu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ll_toolbarMenu"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_toolbarMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical|end"
+                android:gravity="center_vertical|end"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <include
+                    android:id="@+id/included_search"
+                    layout="@layout/view_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="@dimen/menu_ItemSpacing_8"
+                    android:layout_height="match_parent" />
+
+                <include
+                    android:id="@+id/included_backToDate"
+                    layout="@layout/view_back_to_date"
+                    android:layout_width="@dimen/_21sdp"
+                    android:layout_height="@dimen/_21sdp"
+                    android:layout_marginEnd="@dimen/menu_ItemSpacing_8" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/custom_toolbar"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

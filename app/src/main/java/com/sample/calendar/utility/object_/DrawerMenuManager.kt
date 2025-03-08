@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.sample.calendar.MyApplication
 import com.sample.calendar.R
 import com.sample.calendar.databinding.ItemDrawerMenuBinding
 import com.sample.calendar.databinding.LayoutDrawerBinding
@@ -22,24 +24,33 @@ import com.sample.calendar.presentation.ui.activity.LanguageActivity
 import com.sample.calendar.presentation.ui.activity.MonthActivity
 import com.sample.calendar.presentation.ui.activity.SettingActivity
 import com.sample.calendar.presentation.ui.activity.YearActivity
+import com.sample.calendar.utility.object_.Constants.BASE_TAG
 import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_COUNTRY
 import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_LANGUAGE
 import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_MONTH
 import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_SETTING
 import com.sample.calendar.utility.object_.Constants.FLAG_ACTIVITY_YEAR
+import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 object DrawerMenuManager {
+    private val TAG = BASE_TAG + DrawerMenuManager::class.java.simpleName
     private var layoutDrawerBinding: LayoutDrawerBinding? = null
     private var isDrawerOpen = false
     private var drawerAdapter: DrawerMenuAdapter? = null
     private var selectedPosition: Int = -1
+
+    // ✅ Use WeakReference to prevent memory leaks
+    private var activityRef: WeakReference<Activity>? = null
+
     data class DrawerMenuItem(val id: Int, val title: String, val icon: Int, var isSelected: Boolean = false)// val icon: Int = -1, // Now just an Int to hold either attribute or drawable ID
 
-    fun setupDrawer(context: Context, onItemSelected: (DrawerMenuItem) -> Unit) {
-        val activity = context as Activity
+    fun setupDrawer(activity: Activity, onItemSelected: (DrawerMenuItem) -> Unit) {
+        activityRef = WeakReference(activity) // ✅ Store WeakReference to prevent leaks
+
         val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
 
-        val view = LayoutInflater.from(context).inflate(R.layout.layout_drawer, rootView, false)
+        val view = LayoutInflater.from(activity).inflate(R.layout.layout_drawer, rootView, false)
         layoutDrawerBinding = LayoutDrawerBinding.bind(view)
         rootView.addView(view) // Add drawer to the root layout
 
@@ -96,21 +107,12 @@ object DrawerMenuManager {
         layoutDrawerBinding?.layoutDrawer?.apply {
             if (isDrawerOpen) {
                 // Close drawer
-               closeDrawer()
+                closeDrawer()
             } else {
                 // Open drawer
-               openDrawer()
+                openDrawer()
             }
             isDrawerOpen = !isDrawerOpen
-        }
-    }
-    private fun closeDrawer() {
-        layoutDrawerBinding?.layoutDrawer?.apply {
-            animate()
-                .translationX(-width.toFloat())
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .setDuration(200)
-                .start()
         }
     }
 

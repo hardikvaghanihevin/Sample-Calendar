@@ -3,6 +3,7 @@ package com.sample.calendar.utility.class_
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.sample.calendar.utility.object_.KeyBoardManager
 
 class BackPressManager {
 
@@ -36,14 +37,15 @@ class BackPressManager {
 
     fun initialize(activity: FragmentActivity) {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() { customBackAction?.invoke() ?: activity.finish() }
+            override fun handleOnBackPressed() { KeyBoardManager.hideKeyboard(activity); customBackAction?.invoke() ?: activity.finish() }
         }
         activity.onBackPressedDispatcher.addCallback(activity, onBackPressedCallback!!)
     }
 
     fun initialize(fragment: Fragment) {
+        val activity = fragment.requireActivity()
         onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() { customBackAction?.invoke() ?: fragment.activity?.supportFragmentManager?.popBackStack() }
+            override fun handleOnBackPressed() { KeyBoardManager.hideKeyboard(activity); customBackAction?.invoke() ?: fragment.activity?.supportFragmentManager?.popBackStack() }
         }
         fragment.requireActivity().onBackPressedDispatcher.addCallback(fragment.viewLifecycleOwner, onBackPressedCallback!!)
     }
